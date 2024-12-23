@@ -1,31 +1,37 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addContact } from "../features/contact/contactSlice";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { editContact } from "../features/contact/contactSlice";
 import { toast } from "react-toastify";
+const UpdateContact = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-const AddContact = () => {
-  const [formContact, setFormContact] = useState({
+  const contact = useSelector((state) => {
+    const newData = state.contact.value;
+    return newData.find((data) => data.id === Number(id));
+  });
+
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
   });
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const onFromSubmit = (e) => {
+  useEffect(() => {
+    if (contact) {
+      setFormData(contact);
+    }
+  }, [contact]);
+
+  const onFormSubmit = (e) => {
     e.preventDefault();
 
-    if (formContact.name && formContact.email && formContact.phone) {
-      const newData = {
-        id: Math.floor(Math.random() * 100 + 1),
-        name: formContact.name,
-        email: formContact.email,
-        phone: formContact.phone,
-      };
-      dispatch(addContact(newData));
-      setFormContact({ id: "", name: "", email: "", phone: "" });
-      toast.success("Contact added successfully!", {
+    if (formData.name && formData.email && formData.phone) {
+      dispatch(editContact(formData));
+      setFormData({ name: "", email: "", phone: "" });
+      toast.success("Contact updated successfully!", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -40,16 +46,16 @@ const AddContact = () => {
 
   return (
     <div className="container mt-4" style={{ minHeight: "80vh" }}>
-      <h2 className="text-center mb-4">Add New Contact</h2>
-      <form onSubmit={onFromSubmit} className="card p-4 shadow-sm">
+      <h2 className="text-center mb-4">Update Contact</h2>
+      <form onSubmit={onFormSubmit} className="card p-4 shadow-sm">
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
             Name
           </label>
           <input
-            value={formContact.name || ""}
+            value={formData.name || ""}
             onChange={(e) =>
-              setFormContact((prev) => {
+              setFormData((prev) => {
                 const name = e.target.value;
                 return { ...prev, name };
               })
@@ -65,9 +71,9 @@ const AddContact = () => {
             Email
           </label>
           <input
-            value={formContact.email || ""}
+            value={formData.email || ""}
             onChange={(e) =>
-              setFormContact((prev) => {
+              setFormData((prev) => {
                 const email = e.target.value;
                 return { ...prev, email };
               })
@@ -83,9 +89,9 @@ const AddContact = () => {
             Phone
           </label>
           <input
-            value={formContact.phone || ""}
+            value={formData.phone || ""}
             onChange={(e) =>
-              setFormContact((prev) => {
+              setFormData((prev) => {
                 const phone = e.target.value;
                 return { ...prev, phone };
               })
@@ -98,7 +104,7 @@ const AddContact = () => {
         </div>
         <div className="text-center">
           <button type="submit" className="btn btn-primary w-25">
-            Add Contact
+            Update Contact
           </button>
         </div>
       </form>
@@ -106,4 +112,4 @@ const AddContact = () => {
   );
 };
 
-export default AddContact;
+export default UpdateContact;

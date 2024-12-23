@@ -1,10 +1,26 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { deleteContact } from "../features/contact/contactSlice";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const contacts = useSelector((state) => state.contact.value);
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const onEditHandle = (contact) => {
+    navigate(`/edit-contact/${contact.id}`);
+  };
+
+  const onDeleteHandle = (id) => {
+    dispatch(deleteContact(id));
+    toast.success("Contact deleted successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+  };
 
   return (
     <div className="container mt-4" style={{ minHeight: "80vh" }}>
@@ -23,8 +39,18 @@ const Home = () => {
                     <strong>Phone:</strong> {contact.phone}
                   </p>
                   <div className="d-flex justify-content-between">
-                    <button className="btn btn-warning btn-sm">Edit</button>
-                    <button className="btn btn-danger btn-sm">Delete</button>
+                    <button
+                      onClick={() => onEditHandle(contact)}
+                      className="btn btn-warning btn-sm"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => onDeleteHandle(contact.id)}
+                      className="btn btn-danger btn-sm"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>

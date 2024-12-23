@@ -6,6 +6,9 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import AddContact from "./pages/AddContact";
 import AllContacts from "./pages/AllContacts";
+import UpdateContact from "./pages/UpdateContact";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const router = createBrowserRouter([
   {
@@ -24,12 +27,21 @@ const router = createBrowserRouter([
         path: "contacts",
         element: <AllContacts />,
       },
+      {
+        path: "edit-contact/:id",
+        element: <UpdateContact />,
+      },
     ],
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </>
+  );
 }
 
 export default App;

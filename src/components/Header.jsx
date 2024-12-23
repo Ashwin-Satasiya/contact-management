@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Header.css";
-
+import { useDispatch } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
+import { searchContact } from "../features/contact/contactSlice";
 
 const Header = () => {
+  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+
+  const onSearchFormSubmit = (e) => {
+    e.preventDefault();
+    if (search.trim()) {
+      dispatch(searchContact(search));
+    } else {
+      alert("Write something on search");
+    }
+    setSearch("");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -35,15 +49,19 @@ const Header = () => {
               </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/contacts">
+              <NavLink className="nav-link" to="/contacts">
                 All Contacts
-              </a>
+              </NavLink>
             </li>
           </ul>
 
-          {/* Search Bar */}
-          <form className="d-flex ms-lg-3 mt-2 mt-lg-0">
+          <form
+            onSubmit={onSearchFormSubmit}
+            className="d-flex ms-lg-3 mt-2 mt-lg-0"
+          >
             <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               className="form-control me-2"
               type="search"
               placeholder="Search"
