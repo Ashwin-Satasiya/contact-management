@@ -18,7 +18,7 @@ const AddContact = () => {
 
     if (formContact.name && formContact.email && formContact.phone) {
       const newData = {
-        id: Math.floor(Math.random() * 100 + 1),
+        id: Date.now(),
         name: formContact.name,
         email: formContact.email,
         phone: formContact.phone,

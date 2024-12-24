@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Header.css";
 import { useDispatch } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
-import { searchContact } from "../features/contact/contactSlice";
+import { searchContact, resetContact } from "../features/contact/contactSlice";
 
 const Header = () => {
   const [search, setSearch] = useState("");
@@ -16,6 +16,10 @@ const Header = () => {
       alert("Write something on search");
     }
     setSearch("");
+  };
+
+  const onResetContact = () => {
+    dispatch(resetContact());
   };
 
   return (
@@ -54,7 +58,6 @@ const Header = () => {
               </NavLink>
             </li>
           </ul>
-
           <form
             onSubmit={onSearchFormSubmit}
             className="d-flex ms-lg-3 mt-2 mt-lg-0"
@@ -67,10 +70,16 @@ const Header = () => {
               placeholder="Search"
               aria-label="Search"
             />
-            <button className="btn btn-outline-success" type="submit">
+            <button className="btn btn-success" type="submit">
               Search
             </button>
           </form>
+          <button
+            onClick={() => onResetContact()}
+            className="btn btn-warning  m-2"
+          >
+            Reset
+          </button>
         </div>
       </div>
     </nav>

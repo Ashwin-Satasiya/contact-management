@@ -8,8 +8,8 @@ const AllContacts = () => {
   return (
     <div className="container mt-4" style={{ minHeight: "80vh" }}>
       <h2 className="text-center mb-4">All Contacts</h2>
-      <div className="card p-4 shadow-sm">
-        <table className="table table-bordered table-hover">
+      <div className="card p-4 shadow-sm " style={{ overflowX: "scroll" }}>
+        <table className="table table-bordered table-hover ">
           <thead className="table-light">
             <tr>
               <th scope="col">Sr. No.</th>
@@ -20,9 +20,9 @@ const AllContacts = () => {
           </thead>
           <tbody>
             {contact && contact.length > 0 ? (
-              contact.map((contact) => (
+              contact.map((contact, index) => (
                 <tr key={contact.id}>
-                  <td>{contact.id}</td>
+                  <td>{index + 1}</td>
                   <td>{contact.name}</td>
                   <td>{contact.email}</td>
                   <td>{contact.phone}</td>

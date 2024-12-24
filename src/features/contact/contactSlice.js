@@ -38,10 +38,18 @@ export const contactSlice = createSlice({
           data.email.toLowerCase().includes(action.payload.toLowerCase())
       );
     },
+    resetContact: (state) => {
+      state.value = getDataFromLocalStorage();
+    },
   },
 });
 
-export const { addContact, editContact, deleteContact, searchContact } =
-  contactSlice.actions;
+export const {
+  addContact,
+  editContact,
+  deleteContact,
+  searchContact,
+  resetContact,
+} = contactSlice.actions;
 
 export default contactSlice.reducer;
