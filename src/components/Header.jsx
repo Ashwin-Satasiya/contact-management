@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Header.css";
+
 import { useDispatch } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
 import { searchContact, resetContact } from "../features/contact/contactSlice";
